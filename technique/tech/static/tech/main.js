@@ -1,9 +1,28 @@
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("bases").style.display = "none";
+  document.getElementById("qcm").style.display = 'none';
+
+
+
   document.getElementById("base").onclick = function(event) {
+    
     document.getElementById("user-busniss").style.display = "none";
     document.getElementById("bases").style.display ="block";
+
+    var state = {page : "bases"};
+    var url = '/convert';
+    history.pushState(state, '', url);
+
+    
   }
+
+
+
+  document.getElementById("nav-qcm").onclick = function (event) {
+    document.getElementById("qcm").style.display = "block";
+  }
+
+
 
   select1 = document.getElementById("from");
   select2 = document.getElementById("to");
@@ -69,6 +88,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   
 });
+
+
+function QCM() {
+  
+}
 
 function swapOptions() {
   let indexFrom = select1.selectedIndex;

@@ -8,5 +8,5 @@ urlpatterns  = [
     path("logout", views.logout_view, name="logout"),
 
     #API Routes
-    path('convert', views.base, name='base'),
+    path('convert/', views.base, name='base'),
 ]
