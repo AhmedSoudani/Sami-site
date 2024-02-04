@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("bases").style.display = "none";
+  document.getElementById("base").onclick = function(event) {
+    document.getElementById("user-busniss").style.display = "none";
+    document.getElementById("bases").style.display ="block";
+  }
+
   select1 = document.getElementById("from");
   select2 = document.getElementById("to");
 

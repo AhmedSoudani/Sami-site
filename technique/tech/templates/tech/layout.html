@@ -17,9 +17,35 @@
     <title>{% block title %} Home Page {% endblock %}</title>
   </head>
   <body class="body">
-    <div id="converted" class="alert alert-info"></div>
+    <nav class="navbar bg-black border-bottom border-body">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'index' %}">
+          <img
+            src="{% static 'tech/logo.jpeg' %}"
+            alt="Logo"
+            width="200"
+            height="auto"
+            class="d-inline-block align-text-top"
+          />
+        </a>
+        {% if request.user.is_authenticated %}
 
-    <div class="bases">
+        <a class="nav-link" href="{% url 'logout' %}">logout</a>
+        <a class="nav-link">{{ request.user.username }}</a>
+        {% else %}
+
+        <a class="nav-link" href="{% url 'login' %}">Login</a>
+        <a class="nav-link" href="{% url 'register' %}">register</a>
+
+        {% endif %} 
+        <button class="nav-link" id="base">Base</button>
+      </div>
+    </nav>
+
+    <div class="position-relative">
+      <div id="converted" class="alert alert-info"></div>
+    </div>
+    <div class="bases" id="bases">
       <h2>Converter Bases</h2>
       <form method="post" name="bases" id="form1">
         {% csrf_token %}
@@ -80,7 +106,9 @@
       </form>
     </div>
 
-    <div class="home"></div>
+    <div class="user-busniss" id="user-busniss">
+      {% block body %}{% endblock %}
+    </div>
   </body>
   <script src="{% static 'tech/main.js' %}"></script>
 </html>
