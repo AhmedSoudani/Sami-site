@@ -51,13 +51,15 @@ def register(request):
                 "message": "Password must match the confiramtion"
             })
         try:
-            user = User.objects.create_user(username=username, email=email, password=password)
-        except IntegrityError:
+            user = User.objects.create_user(username, email, password)
+            user.save()
+        except IntegrityError as e:
+            print(e)
             return render(request, "tech/register.html", {
                 "message": "User already exists!"
             })
         
-        login(request)
+        login(request, user)
         return HttpResponseRedirect(reverse("index"))
     
     else:
