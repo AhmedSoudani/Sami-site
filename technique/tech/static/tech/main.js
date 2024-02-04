@@ -3,26 +3,53 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("qcm").style.display = 'none';
 
 
-
-  document.getElementById("base").onclick = function(event) {
-    
-    document.getElementById("user-busniss").style.display = "none";
-    document.getElementById("bases").style.display ="block";
-
-    var state = {page : "bases"};
-    var url = '/convert';
-    history.pushState(state, '', url);
-
-    
+  window.onpopstate = function(event) {
+      console.log(event.state.page);
+      if (event.state.page == "qcm") {
+        document.getElementById("qcm").style.display = "block";
+        document.getElementById("bases").style.display ="none";
+        document.getElementById("user-busniss").style.display = "none";
+      }
+      else if (event.state.page == "bases") {
+        document.getElementById("qcm").style.display = "none";
+        document.getElementById("bases").style.display ="block";
+        document.getElementById("user-busniss").style.display = "none";
+      }
+      else if(event.state.page == "user-busniss") {
+        document.getElementById("qcm").style.display = "none";
+        document.getElementById("bases").style.display ="none";
+        document.getElementById("user-busniss").style.display = "block";
+      }
+      else if (event.state.page == "") {
+        document.getElementById("qcm").style.display = "none";
+        document.getElementById("bases").style.display ="none";
+        document.getElementById("user-busniss").style.display = "none";
+      }
   }
 
+  document.getElementById("base").onclick = function(event) {
+
+    document.getElementById("user-busniss").style.display = "none";
+    document.getElementById("qcm").style.display = "none";
+    document.getElementById("bases").style.display ="block";
+
+    let state = {page : "bases"};
+    let url = '/convert';
+    history.pushState(state, '', url);   
+
+}
 
 
   document.getElementById("nav-qcm").onclick = function (event) {
     document.getElementById("qcm").style.display = "block";
+    document.getElementById("bases").style.display ="none";
+    document.getElementById("user-busniss").style.display = "none";
+
+    let state = {page : "qcm"}
+    let url = '/Levels';
+    history.pushState(state, '', url);
+
   }
-
-
 
   select1 = document.getElementById("from");
   select2 = document.getElementById("to");
@@ -39,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
       element.style.display = "block";
       element.style.animationPlayState = "running";
       element.innerHTML =
-    "Pick Two bases to swap!";
+    "Pick Two different bases to swap!";
     }
   }
 
