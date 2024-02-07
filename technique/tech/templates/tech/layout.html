@@ -56,7 +56,7 @@
       <form method="post" name="bases" id="form1">
         {% csrf_token %}
 
-        <label>from:</label>
+        <label>from:
         <select
           name="select"
           id="from"
@@ -68,9 +68,9 @@
           <option value="8">Octal (Base 8)</option>
           <option value="10">Decimal (Base 10)</option>
           <option value="16">Hexadecimal (Base 16)</option></select
-        ><br />
+        ><br /></label>
 
-        <label>to:</label>
+        <label>to:
         <select
           name="select"
           id="to"
@@ -82,7 +82,7 @@
           <option value="8">Octal (Base 8)</option>
           <option value="10">Decimal (Base 10)</option>
           <option value="16">Hexadecimal (Base 16)</option></select
-        ><br />
+        ><br /></label>
 
         <div class="input-group input-group-lg">
           <span class="input-group-text" id="inputGroup-sizing-lg"
@@ -118,25 +118,25 @@
     
     <div class="qcm" id="qcm">
 
-      <div class="levels">
+      <div id="levels">
         <form method="post" name="level" id="level-form">
           {% csrf_token %}
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="level1" value="level1" checked>
-            <label class="form-check-label" for="exampleRadios1">
-              Level 1
+            <label class="form-check-label">
+              <input class="form-check-input" type="radio" name="exampleRadios" id="level1" value="level1" checked>
+                Level 1
             </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="level2" value="level2">
-            <label class="form-check-label" for="exampleRadios2">
-              Level 2
+            <label class="form-check-label">
+              <input class="form-check-input" type="radio" name="exampleRadios" id="level2" value="level2">
+                Level 2
             </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="level3" value="level3">
-            <label class="form-check-label" for="exampleRadios3">
-              Level 3
+            <label class="form-check-label">
+              <input class="form-check-input" type="radio" name="exampleRadios" id="level3" value="level3">
+                Level 3
             </label>
           </div>
 
@@ -144,9 +144,13 @@
         </form>
       </div>
 
-      <div class="qst" id="qst">
+      <form method="post" name="question" id="question">
+        {% csrf_token %}
+        <div class="qst" id="qst">
 
-      </div>
+        </div>
+        <div id="go"></div>
+      </form>
     </div>
   </body>
   <script src="{% static 'tech/main.js' %}"></script>

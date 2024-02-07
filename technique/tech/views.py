@@ -26,7 +26,7 @@ def exercice(request, num):
         return JsonResponse(ex.serialize())
     else:
         return JsonResponse({
-            "message" : "indefined level"
+            "error" : "indefined level"
         })
 
 def logout_view(request):
