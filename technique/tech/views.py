@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import User
+from .models import User, Exercice
 
 
 
@@ -14,8 +14,20 @@ def base(request):
 
 
 def index(request):
-
     return render(request, "tech/index.html")
+
+def levels(request):
+    return render(request, "tech/layout.html")
+
+def exercice(request, num):
+    if 1 <= num <= 3:
+        ex = Exercice.objects.filter(level = num).order_by('?').first()
+
+        return JsonResponse(ex.serialize())
+    else:
+        return JsonResponse({
+            "message" : "indefined level"
+        })
 
 def logout_view(request):
     logout(request)

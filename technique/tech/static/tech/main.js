@@ -113,12 +113,38 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
+  document.getElementById("level-form").onsubmit = (event) => {
+    let level1 = document.getElementById("level1").checked;
+    let level2 = document.getElementById("level2").checked;
+    let level3 = document.getElementById("level3").checked;
+
+    if (level1 == true){
+      MCQ(1);
+    }
+    else if (level2 == true) {
+      MCQ(2);
+    }
+    else if(level3 == true) {
+      MCQ(3);
+    }
+  }
   
 });
 
 
-function QCM() {
-  
+function MCQ(level) {
+
+  fetch(`Levels/${level}`)
+  .then(response => response.json())
+  .then(ex => {
+    let qst = ex.question;
+    let ch ="";
+    for(let i=0; i<ex.choices; i++) {
+      ch = ch + `<input type="radio" name="choice"><label>${ex.choices[i].text}</label><br>`;
+    }
+
+    document.getElementById("qst").innerHTML = qst, ch; 
+  });
 }
 
 function swapOptions() {

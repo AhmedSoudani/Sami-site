@@ -228,3 +228,11 @@ a:hover {
   bottom: -4px;
   left: -4px;
 }
+.levels {
+  margin: auto;
+  width: 50%;
+  height: auto;
+  border: 3px solid green;
+  padding: 10px;
+
+}
