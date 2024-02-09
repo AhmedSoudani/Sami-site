@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from .models import User, Exercice
 
 
@@ -17,17 +18,30 @@ def index(request):
     return render(request, "tech/index.html")
 
 def levels(request):
-    return render(request, "tech/layout.html")
+    return render(request, "tech/levels.html")
 
+@csrf_exempt
 def exercice(request, num):
-    if 1 <= num <= 3:
-        ex = Exercice.objects.filter(level = num).order_by('?').first()
+    x = None
+    if request.method == 'GET':
+        if 1 <= num <= 3:
+            ex = Exercice.objects.filter(level = num).order_by('?').first()
+            x = ex.response
+            return JsonResponse(ex.serialize())
+        else:
+            return JsonResponse({
+                "message" : "indefined level"
+            })
+    elif request.method == 'POST':
+        if x is not None:
+            return JsonResponse({
+                "ex" : x
+            })
+        else:
+            return JsonResponse({
+                "error" : "There's no exercice here!"
+            })
 
-        return JsonResponse(ex.serialize())
-    else:
-        return JsonResponse({
-            "error" : "indefined level"
-        })
 
 def logout_view(request):
     logout(request)

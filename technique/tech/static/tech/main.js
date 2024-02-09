@@ -1,27 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("bases").style.display = "none";
-  document.getElementById("qcm").style.display = 'none';
 
 
   window.onpopstate = function(event) {
       console.log(event.state.page);
-      if (event.state.page == "qcm") {
-        document.getElementById("qcm").style.display = "block";
-        document.getElementById("bases").style.display ="none";
-        document.getElementById("user-busniss").style.display = "none";
-      }
-      else if (event.state.page == "bases") {
-        document.getElementById("qcm").style.display = "none";
+      if (event.state.page == "bases") {
         document.getElementById("bases").style.display ="block";
         document.getElementById("user-busniss").style.display = "none";
       }
       else if(event.state.page == "user-busniss") {
-        document.getElementById("qcm").style.display = "none";
         document.getElementById("bases").style.display ="none";
         document.getElementById("user-busniss").style.display = "block";
       }
       else if (event.state.page == "") {
-        document.getElementById("qcm").style.display = "none";
         document.getElementById("bases").style.display ="none";
         document.getElementById("user-busniss").style.display = "none";
       }
@@ -30,30 +21,76 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("base").onclick = function(event) {
 
     document.getElementById("user-busniss").style.display = "none";
-    document.getElementById("qcm").style.display = "none";
     document.getElementById("bases").style.display ="block";
 
     let state = {page : "bases"};
-    let url = '/convert';
+    let url = '/convert'; 
     history.pushState(state, '', url);   
 
 }
 
-  document.getElementById("question").onsubmit = () => {
-    
+document.getElementById("question").onsubmit = () => {
+  let level = document.querySelector("strong").id;
+  let radio = document.getElementById("rd");
+
+  if (radio === null) {
+      let answer = document.getElementById("answer").value;
+      fetch(`Levels/${level}`, {
+          method: 'POST',
+      })
+      .then(response => response.json())
+      .then(ans => {
+          if (ans != null) {
+              alert(ans);
+          } else {
+              alert("didn't get the ans");
+          }
+
+          if (ans == answer) {
+              if (parseInt(level) < 3) {
+                  level = parseInt(level) + 1;
+                  MCQ(level);
+              } else {
+                  Congrats();
+              }
+          } else {
+              MCQ(level);
+          }
+      });
+  } else {
+      alert(level);
+      fetch(`Levels/${level}`, {
+          method: 'POST',
+      })
+      .then(response => response.json())
+      .then(ex => {
+        alert("anything");console.log(ex);
+          if (ex != null) {
+              alert("wow");
+              
+          } else {
+              alert("didn't get the ans");
+          }
+          if (ex.response == document.getElementById("choice").selectedChoices.value) {
+              if (parseInt(level) < 3) {
+                  alert("YEDY KESE7");
+                  level = parseInt(level) + 1;
+                  MCQ(level);
+              } else {
+                  Congrats();
+              }
+          } else {
+              MCQ(level);
+          }
+      })
+      .catch(error => {
+          console.log("Error: ", error);
+      });
   }
+};
 
 
-  document.getElementById("nav-qcm").onclick = function (event) {
-    document.getElementById("qcm").style.display = "block";
-    document.getElementById("bases").style.display ="none";
-    document.getElementById("user-busniss").style.display = "none";
 
-    let state = {page : "qcm"}
-    let url = '/Levels';
-    history.pushState(state, '', url);
-
-  }
 
   select1 = document.getElementById("from");
   select2 = document.getElementById("to");
@@ -120,7 +157,6 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("level-form").onsubmit = (event) => {
     event.preventDefault();
 
-    alert("entred_here");
     let level1 = document.getElementById("level1").checked;
     console.log(level1);
     let level2 = document.getElementById("level2").checked;
@@ -148,7 +184,7 @@ function MCQ(level) {
   fetch(`Levels/${level}`)
     .then(response => response.json())
     .then(ex => {
-      let qst = ex.question;
+      let qst = `<strong id="${level}">` + ex.question + `</strong>`;
 
       if (ex.choices.length != 0){
         //Return to me A array 
@@ -169,10 +205,10 @@ function MCQ(level) {
 
         // Add the radio buttons and labels to the 'qst' element
         selectedChoices.forEach(choice => {
-          document.getElementById("qst").innerHTML += `<input type="radio" name="choice"><label>${choice}</label><br>`;
+          document.getElementById("qst").innerHTML += `<input type="radio" name="choice" id="rd"><label>${choice}</label><br>`;
         });
 
-        document.getElementById("qst").innerHTML += `<input type="radio" name="choice"><label>None</label><br>`;
+        document.getElementById("qst").innerHTML += `<input type="radio" name="choice" id="rd"><label>None</label><br>`;
         }
       else {
           document.getElementById("qst").innerHTML =
