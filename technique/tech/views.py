@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from django.urls import reverse
 from django.db import IntegrityError
+from random import randint
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -22,25 +23,20 @@ def levels(request):
 
 @csrf_exempt
 def exercice(request, num):
-    x = None
-    if request.method == 'GET':
-        if 1 <= num <= 3:
-            ex = Exercice.objects.filter(level = num).order_by('?').first()
-            x = ex.response
-            return JsonResponse(ex.serialize())
-        else:
-            return JsonResponse({
+    last_id = Exercice.objects.filter(level = num).order_by('id').last()
+    x = randint(1,last_id.id)
+    if 3 < num or 1 > num:
+        return JsonResponse({
                 "message" : "indefined level"
             })
+    ex = Exercice.objects.get(level = num, id=x)
+
+    if request.method == 'GET':
+            return JsonResponse(ex.serialize())
+            
     elif request.method == 'POST':
-        if x is not None:
-            return JsonResponse({
-                "ex" : x
-            })
-        else:
-            return JsonResponse({
-                "error" : "There's no exercice here!"
-            })
+        return JsonResponse(ex.serialize())
+        
 
 
 def logout_view(request):

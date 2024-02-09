@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.getElementById("question").onsubmit = () => {
   let level = document.querySelector("strong").id;
-  let radio = document.getElementById("rd");
+  let radio = document.querySelector('input[name="choice"]:checked');
 
   if (radio === null) {
       let answer = document.getElementById("answer").value;
@@ -39,14 +39,14 @@ document.getElementById("question").onsubmit = () => {
           method: 'POST',
       })
       .then(response => response.json())
-      .then(ans => {
-          if (ans != null) {
-              alert(ans);
+      .then(ex => {
+          if (ex != null) {
+              alert(ex);
           } else {
               alert("didn't get the ans");
           }
 
-          if (ans == answer) {
+          if (ex.response == answer) {
               if (parseInt(level) < 3) {
                   level = parseInt(level) + 1;
                   MCQ(level);
@@ -59,32 +59,38 @@ document.getElementById("question").onsubmit = () => {
       });
   } else {
       alert(level);
-      fetch(`Levels/${level}`, {
-          method: 'POST',
-      })
+      fetch(`Levels/${level}`)
       .then(response => response.json())
       .then(ex => {
-        alert("anything");console.log(ex);
+        alert("anything");
+        console.log(ex);
           if (ex != null) {
+              alert(ex.response);
+              alert(radio.value != null);
               alert("wow");
-              
+
           } else {
               alert("didn't get the ans");
           }
-          if (ex.response == document.getElementById("choice").selectedChoices.value) {
+          
+          alert("check " + (radio ? radio.value : "No radio button checked"));
+          if (ex.response == radio.value) {
               if (parseInt(level) < 3) {
                   alert("YEDY KESE7");
                   level = parseInt(level) + 1;
+                  alert(level);
                   MCQ(level);
               } else {
                   Congrats();
               }
           } else {
+              alert("fama progress");
               MCQ(level);
           }
       })
       .catch(error => {
           console.log("Error: ", error);
+          alert(error);
       });
   }
 };
@@ -205,7 +211,7 @@ function MCQ(level) {
 
         // Add the radio buttons and labels to the 'qst' element
         selectedChoices.forEach(choice => {
-          document.getElementById("qst").innerHTML += `<input type="radio" name="choice" id="rd"><label>${choice}</label><br>`;
+          document.getElementById("qst").innerHTML += `<input type="radio" name="choice" value="${choice}" id="rd"><label>${choice}</label><br>`;
         });
 
         document.getElementById("qst").innerHTML += `<input type="radio" name="choice" id="rd"><label>None</label><br>`;
