@@ -24,17 +24,23 @@ def levels(request):
 @csrf_exempt
 def exercice(request, num):
     last_id = Exercice.objects.filter(level = num).order_by('id').last()
-    x = randint(1,last_id.id)
-    if 3 < num or 1 > num:
+    first_id = Exercice.objects.filter(level = num).order_by('id').first()
+    print(last_id.id)
+    x = randint(first_id.id,last_id.id)
+    print(x)
+    if not(1<=num<=3):
         return JsonResponse({
                 "message" : "indefined level"
             })
     ex = Exercice.objects.get(level = num, id=x)
+    print("we make an exercice")
 
     if request.method == 'GET':
-            return JsonResponse(ex.serialize())
+        print("GET REQUEST")
+        return JsonResponse(ex.serialize())
             
     elif request.method == 'POST':
+        print("POST REQUEST")
         return JsonResponse(ex.serialize())
         
 

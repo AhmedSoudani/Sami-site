@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   document.getElementById("base").onclick = function(event) {
+    event.preventDefault();
 
     document.getElementById("user-busniss").style.display = "none";
     document.getElementById("bases").style.display ="block";
@@ -29,7 +30,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 }
 
-document.getElementById("question").onsubmit = () => {
+document.getElementById("question").onsubmit = (event) => {
+  event.preventDefault();
+
   let level = document.querySelector("strong").id;
   let radio = document.querySelector('input[name="choice"]:checked');
 
@@ -40,20 +43,17 @@ document.getElementById("question").onsubmit = () => {
       })
       .then(response => response.json())
       .then(ex => {
-          if (ex != null) {
-              alert(ex);
-          } else {
-              alert("didn't get the ans");
-          }
-
           if (ex.response == answer) {
-              if (parseInt(level) < 3) {
-                  level = parseInt(level) + 1;
-                  MCQ(level);
-              } else {
-                  Congrats();
-              }
-          } else {
+            if (parseInt(level) < 3) {
+              alert("YEDY KESE7");
+              level = parseInt(level) + 1;
+              alert(level);
+              MCQ(level);  // Trigger the next level
+            }else {
+              Congrats();
+            }
+          }
+          else {
               MCQ(level);
           }
       });
@@ -62,29 +62,16 @@ document.getElementById("question").onsubmit = () => {
       fetch(`Levels/${level}`)
       .then(response => response.json())
       .then(ex => {
-        alert("anything");
-        console.log(ex);
-          if (ex != null) {
-              alert(ex.response);
-              alert(radio.value != null);
-              alert("wow");
-
-          } else {
-              alert("didn't get the ans");
-          }
-          
-          alert("check " + (radio ? radio.value : "No radio button checked"));
           if (ex.response == radio.value) {
-              if (parseInt(level) < 3) {
-                  alert("YEDY KESE7");
-                  level = parseInt(level) + 1;
-                  alert(level);
-                  MCQ(level);
-              } else {
-                  Congrats();
-              }
+            if (parseInt(level) < 3) {
+              alert("YEDY KESE7");
+              level = parseInt(level) + 1;
+              alert(level);
+              MCQ(level);  // Trigger the next level
+            } else {
+              Congrats();
+            }
           } else {
-              alert("fama progress");
               MCQ(level);
           }
       })
@@ -171,7 +158,6 @@ document.getElementById("question").onsubmit = () => {
     console.log("none <3!")
 
     if (level1 == true){
-      console.log("another hallilouya");
       MCQ("1");
     }
     else if (level2 == true) {
@@ -185,11 +171,19 @@ document.getElementById("question").onsubmit = () => {
 });
 
 
+function Congrats() {
+    document.getElementById("qcm").style.display = 'none';
+    document.getElementById("congrats").style.display = 'block';
+}
+
+
 function MCQ(level) {
 
+  alert("We have the level: "+level);
   fetch(`Levels/${level}`)
     .then(response => response.json())
     .then(ex => {
+      alert("We, FETCHED RIGHT");
       let qst = `<strong id="${level}">` + ex.question + `</strong>`;
 
       if (ex.choices.length != 0){
@@ -214,7 +208,7 @@ function MCQ(level) {
           document.getElementById("qst").innerHTML += `<input type="radio" name="choice" value="${choice}" id="rd"><label>${choice}</label><br>`;
         });
 
-        document.getElementById("qst").innerHTML += `<input type="radio" name="choice" id="rd"><label>None</label><br>`;
+        document.getElementById("qst").innerHTML += `<input type="radio" value="None" name="choice" id="rd"><label>None</label><br>`;
         }
       else {
           document.getElementById("qst").innerHTML =
@@ -230,7 +224,8 @@ function MCQ(level) {
       document.getElementById("levels").style.display ="none";
     })
     .catch(error => {
-      console.log("Error:", error);
+      console.log(error);
+      alert(error)
     });
 }
 
