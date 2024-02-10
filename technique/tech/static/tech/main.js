@@ -45,9 +45,7 @@ document.getElementById("question").onsubmit = (event) => {
       .then(ex => {
           if (ex.response == answer) {
             if (parseInt(level) < 3) {
-              alert("YEDY KESE7");
               level = parseInt(level) + 1;
-              alert(level);
               MCQ(level);  // Trigger the next level
             }else {
               Congrats();
@@ -58,15 +56,33 @@ document.getElementById("question").onsubmit = (event) => {
           }
       });
   } else {
-      alert(level);
       fetch(`Levels/${level}`)
       .then(response => response.json())
       .then(ex => {
-          if (ex.response == radio.value) {
+
+        const nonebutton = document.querySelector('input[name="choice"][value="none"]');
+        if(nonebutton.checked){
+          
+          const otherbuttons = document.querySelectorAll('input[name="choice"]:not([value="none"])');
+
+          for(const radiobutton of otherbuttons){
+            if(radiobutton.value === ex.response){
+              MCQ(level);
+              return;
+            }
+          }
+          if(parseInt(level) < 3){
+            level = parseInt(level) + 1;
+            MCQ(level);
+          }
+          else {
+            Congrats();
+          }
+        }
+
+        if (ex.response == radio.value) {
             if (parseInt(level) < 3) {
-              alert("YEDY KESE7");
               level = parseInt(level) + 1;
-              alert(level);
               MCQ(level);  // Trigger the next level
             } else {
               Congrats();
@@ -179,11 +195,9 @@ function Congrats() {
 
 function MCQ(level) {
 
-  alert("We have the level: "+level);
   fetch(`Levels/${level}`)
     .then(response => response.json())
     .then(ex => {
-      alert("We, FETCHED RIGHT");
       let qst = `<strong id="${level}">` + ex.question + `</strong>`;
 
       if (ex.choices.length != 0){
@@ -208,7 +222,7 @@ function MCQ(level) {
           document.getElementById("qst").innerHTML += `<input type="radio" name="choice" value="${choice}" id="rd"><label>${choice}</label><br>`;
         });
 
-        document.getElementById("qst").innerHTML += `<input type="radio" value="None" name="choice" id="rd"><label>None</label><br>`;
+        document.getElementById("qst").innerHTML += `<input type="radio" value="none" name="choice" id="rd"><label>None</label><br>`;
         }
       else {
           document.getElementById("qst").innerHTML =
