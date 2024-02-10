@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("bases").style.display ="block";
 
     let state = {page : "bases"};
-    let url = '/convert'; 
+    let url = '/convert/'; 
     history.pushState(state, '', url);   
 
 }
