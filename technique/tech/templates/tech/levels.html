@@ -1,0 +1,71 @@
+{% extends "tech/layout.html" %}
+
+{% load static %}
+
+{% block title %}
+
+    MCQ
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="qcm" id="qcm">
+
+    <div id="levels">
+      <form method="post" name="level" id="level-form">
+        {% csrf_token %}
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="level1" value="level1" checked>
+              Level 1
+          </label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="level2" value="level2">
+              Level 2
+          </label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="level3" value="level3">
+              Level 3
+          </label>
+        </div>
+
+        <button id="button" type="submit">Start!</button>
+      </form>
+    </div>
+
+    <form method="post" name="question" id="question">
+      {% csrf_token %}
+      <div class="qst" id="qst">
+
+      </div>
+      <div id="go"></div>
+    </form>
+  </div>
+
+
+
+  <div id="congrats" style="display: none;">
+    <div class="congratulation-area text-center mt-5">
+      <div class="container">
+          <div class="congratulation-wrapper">
+              <div class="congratulation-contents center-text">
+                  <div class="congratulation-contents-icon">
+                      <i class="fas fa-check"></i>
+                  </div>
+                  <h4 class="congratulation-contents-title"> Congratulations! </h4>
+                  <img src="{% static 'tech/reward.png' %}" alt="Congratulations you have win the MCQ!">
+                  <p class="congratulation-contents-para"> Your have been successfully completed the MCQ. </p>
+                  <div class="btn-wrapper mt-4">
+                      <a href="{% url 'index' %}" class="btn btn-success"> Go to Home </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+{% endblock %}
