@@ -12,7 +12,7 @@ from .models import User, Exercice
 
 # Create your views here.
 def base(request):
-    return render(request, "tech/layout.html")
+    return render(request, "tech/convert.html")
 
 
 def index(request):

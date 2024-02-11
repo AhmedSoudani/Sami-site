@@ -1,37 +1,11 @@
-document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("bases").style.display = "none";
-
-
-  window.onpopstate = function(event) {
-      console.log(event.state.page);
-      if (event.state.page == "bases") {
-        document.getElementById("bases").style.display ="block";
-        document.getElementById("user-busniss").style.display = "none";
-      }
-      else if(event.state.page == "user-busniss") {
-        document.getElementById("bases").style.display ="none";
-        document.getElementById("user-busniss").style.display = "block";
-      }
-      else if (event.state.page == "") {
-        document.getElementById("bases").style.display ="none";
-        document.getElementById("user-busniss").style.display = "none";
-      }
-  }
-
-  document.getElementById("base").onclick = function(event) {
+document.addEventListener("DOMContentLoaded", function (event) {
     event.preventDefault();
+    
 
-    document.getElementById("user-busniss").style.display = "none";
-    document.getElementById("bases").style.display ="block";
+  
+});
 
-    let state = {page : "bases"};
-    let url = '/convert/'; 
-    history.pushState(state, '', url);   
-
-}
-
-document.getElementById("question").onsubmit = (event) => {
-  event.preventDefault();
+function get_question (event) {
 
   let level = document.querySelector("strong").id;
   let radio = document.querySelector('input[name="choice"]:checked');
@@ -55,6 +29,7 @@ document.getElementById("question").onsubmit = (event) => {
               MCQ(level);
           }
       });
+      return false;
   } else {
       fetch(`Levels/${level}`)
       .then(response => response.json())
@@ -68,7 +43,6 @@ document.getElementById("question").onsubmit = (event) => {
           for(const radiobutton of otherbuttons){
             if(radiobutton.value === ex.response){
               MCQ(level);
-              return;
             }
           }
           if(parseInt(level) < 3){
@@ -77,6 +51,7 @@ document.getElementById("question").onsubmit = (event) => {
           }
           else {
             Congrats();
+            return false;
           }
         }
 
@@ -86,6 +61,7 @@ document.getElementById("question").onsubmit = (event) => {
               MCQ(level);  // Trigger the next level
             } else {
               Congrats();
+              return false;
             }
           } else {
               MCQ(level);
@@ -95,16 +71,20 @@ document.getElementById("question").onsubmit = (event) => {
           console.log("Error: ", error);
           alert(error);
       });
+      
   }
-};
+  return false;
+}
 
 
 
 
-  select1 = document.getElementById("from");
-  select2 = document.getElementById("to");
+  function swap_it (event) {
+    select1 = document.getElementById("from");
+    select2 = document.getElementById("to");
+    event.preventDefault();
 
-  document.getElementById("swap").onclick = function (event) {
+
     if (document.getElementById("from").selectedIndex != 0 &&
      document.getElementById("to").selectedIndex != 0 && 
      document.getElementById("from").selectedIndex != document.getElementById("to").selectedIndex
@@ -118,10 +98,16 @@ document.getElementById("question").onsubmit = (event) => {
       element.innerHTML =
     "Pick Two different bases to swap!";
     }
+
+    return false;
   }
 
-  document.getElementById("form1").onsubmit = function (event) {
+
+  function convert_it (event) {
     event.preventDefault();
+
+    alert(event.target.id);
+
     select1 = document.getElementById("from");
     select2 = document.getElementById("to");
     from = document.getElementById("from").selectedIndex;
@@ -161,30 +147,14 @@ document.getElementById("question").onsubmit = (event) => {
       element.style.display = "block";
       element.style.animationPlayState = "running";
     }
-  };
 
-  document.getElementById("level-form").onsubmit = (event) => {
-    event.preventDefault();
+    return false;
+}
 
-    let level1 = document.getElementById("level1").checked;
-    console.log(level1);
-    let level2 = document.getElementById("level2").checked;
-    let level3 = document.getElementById("level3").checked;
 
-    console.log("none <3!")
 
-    if (level1 == true){
-      MCQ("1");
-    }
-    else if (level2 == true) {
-      MCQ("2");
-    }
-    else if(level3 == true) {
-      MCQ("3");
-    }
-  };
   
-});
+  
 
 
 function Congrats() {
@@ -236,11 +206,34 @@ function MCQ(level) {
         document.getElementById("go").innerHTML = `<button type="submit">Submit</button>`;
       }
       document.getElementById("levels").style.display ="none";
+      return;
     })
     .catch(error => {
       console.log(error);
       alert(error)
     });
+
+    return;
+}
+
+function levelsforms (event){
+      event.preventDefault();
+    
+      if(event.target.id === "level-form"){
+      let level1 = document.getElementById("level1").checked;
+      let level2 = document.getElementById("level2").checked;
+      let level3 = document.getElementById("level3").checked;
+
+
+      if (level1 == true){
+        MCQ("1");
+      }
+      else if (level2 == true) {
+        MCQ("2");
+      }
+      else if(level3 == true) {
+        MCQ("3");
+      }}
 }
 
 function swapOptions() {

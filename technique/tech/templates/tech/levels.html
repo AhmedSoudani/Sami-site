@@ -14,7 +14,7 @@
 <div class="qcm" id="qcm">
 
     <div id="levels">
-      <form method="post" name="level" id="level-form">
+      <form method="post" name="level" id="level-form" onsubmit="return levelsforms(event)">
         {% csrf_token %}
         <div class="form-check">
           <label class="form-check-label">
@@ -39,7 +39,7 @@
       </form>
     </div>
 
-    <form method="post" name="question" id="question">
+    <form method="post" name="question" id="question" onsubmit="return get_question()">
       {% csrf_token %}
       <div class="qst" id="qst">
 
