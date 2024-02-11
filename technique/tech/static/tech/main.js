@@ -43,6 +43,7 @@ function get_question (event) {
           for(const radiobutton of otherbuttons){
             if(radiobutton.value === ex.response){
               MCQ(level);
+              return;
             }
           }
           if(parseInt(level) < 3){
@@ -106,7 +107,6 @@ function get_question (event) {
   function convert_it (event) {
     event.preventDefault();
 
-    alert(event.target.id);
 
     select1 = document.getElementById("from");
     select2 = document.getElementById("to");
