@@ -1,0 +1,79 @@
+{% extends "tech/layout.html" %}
+
+{% load static %}
+
+{% block title %}
+
+    Converter Bases
+
+{% endblock %}
+
+{% block con %}
+
+<div class="position-relative">
+    <div id="converted" class="alert alert-info"></div>
+</div>
+
+
+<div class="bases" id="bases">
+    <h2>Converter Bases</h2>
+    <form method="post" name="bases" id="form1" onsubmit="return convert_it(event)">
+      {% csrf_token %}
+
+      <label>from:</label>
+      <select
+        name="select"
+        id="from"
+        class="form-select"
+        aria-label="Default select example"
+      >
+        <option selected disabled>Base</option>
+        <option value="2">Binary (Base 2)</option>
+        <option value="8">Octal (Base 8)</option>
+        <option value="10">Decimal (Base 10)</option>
+        <option value="16">Hexadecimal (Base 16)</option></select
+      ><br />
+
+      <label>to:</label>
+      <select
+        name="select"
+        id="to"
+        class="form-select"
+        aria-label="Default select example"
+      >
+        <option selected disabled>Base</option>
+        <option value="2">Binary (Base 2)</option>
+        <option value="8">Octal (Base 8)</option>
+        <option value="10">Decimal (Base 10)</option>
+        <option value="16">Hexadecimal (Base 16)</option></select
+      ><br />
+
+      <div class="input-group input-group-lg">
+        <span class="input-group-text" id="inputGroup-sizing-lg"
+          >Number:</span
+        >
+        <input
+          type="text"
+          id="number"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-lg"
+        />
+      </div>
+
+      <div class="button-container">
+        <div class="submit-container">
+          <button class="btn btn-primary" id="convert" type="submit">
+            Convert!
+          </button>
+        </div>
+        <div class="swap-container">
+          <button type="button" class="btn btn-primary" id="swap" onclick="swap_it(event)">
+            Swap<i class="gg-swap"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+{% endblock %}

@@ -23,26 +23,31 @@ def levels(request):
 
 @csrf_exempt
 def exercice(request, num):
-    last_id = Exercice.objects.filter(level = num).order_by('id').last()
-    first_id = Exercice.objects.filter(level = num).order_by('id').first()
-    print(last_id.id)
-    x = randint(first_id.id,last_id.id)
-    print(x)
-    if not(1<=num<=3):
-        return JsonResponse({
-                "message" : "indefined level"
-            })
-    ex = Exercice.objects.get(level = num, id=x)
-    print("we make an exercice")
+    # Fetching exercises for the specified level
+    exercises = Exercice.objects.filter(level=num)
+
+    # Handling case when there are no exercises for the specified level
+    if not exercises.exists():
+        return JsonResponse({"message": "No exercises found for the specified level"}, status=404)
+
+    # Selecting a random exercise from the fetched exercises
+    random_exercise = exercises.order_by('?').first()
 
     if request.method == 'GET':
         print("GET REQUEST")
-        return JsonResponse(ex.serialize())
+        if random_exercise:
+            print(random_exercise)
+        else:
+            print("No exercise found for the specified level")
+        return JsonResponse(random_exercise.serialize())
             
     elif request.method == 'POST':
         print("POST REQUEST")
-        return JsonResponse(ex.serialize())
-        
+        if random_exercise:
+            print(random_exercise.response)
+        else:
+            print("No exercise found for the specified level")
+        return JsonResponse(random_exercise.serialize())
 
 
 def logout_view(request):

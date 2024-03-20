@@ -8,7 +8,17 @@
 
 {% block body %}
 
-    <div class="links"></div>
-    <div class="container"></div>
+    <h1>Download Books</h1>
+
+    {% for book in books %}
+        <div class="book">  
+            <fieldset>
+                <legend>{{ book.title }}</legend>
+                <img src="{{ book.src }}" alt="{{ book.alt }}">
+                <p>Description: {{ book.description }}</p>
+                <button id="{{ book.src }}" class="btn btn-success">Download</button>
+            </fieldset>
+        </div>
+    {% endfor %}
 
 {% endblock %}

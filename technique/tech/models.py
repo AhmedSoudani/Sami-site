@@ -27,3 +27,9 @@ class Exercice(models.Model):
     def __str__(self):
         return f"{self.question[:10]}..."
     
+
+class Books(models.Model):
+    title = models.CharField(max_length=100, blank=False)
+    src = models.CharField(max_length=500, blank=False)
+    description = models.TextField()
+    

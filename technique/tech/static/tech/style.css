@@ -155,6 +155,7 @@ a:hover {
   border: 3px solid #FF0072;
   border-radius: 2px;
   position: relative;
+  margin-left: 400px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.1);
   color: #FF0072;
   text-decoration: none;
@@ -246,4 +247,34 @@ a:hover {
 
 .congratulation-contents.center-text .congratulation-contents-icon {
   margin-inline: auto;
+}
+
+#fd {
+  display: none;
+  border:solid 5px bisque;
+  
+}
+#legend {
+  display: flex;
+  justify-content: center;
+}
+.questions {
+  display: flex;
+  justify-content: center;
+}
+#rd {
+  margin-left: 350px;
+}
+#sbb {
+  margin-left: 900px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+#sbb:hover {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+
 }

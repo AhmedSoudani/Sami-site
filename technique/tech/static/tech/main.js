@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function (event) {
     event.preventDefault();
     
-
   
 });
 
@@ -9,73 +8,45 @@ function get_question (event) {
 
   let level = document.querySelector("strong").id;
   let radio = document.querySelector('input[name="choice"]:checked');
-
-  if (radio === null) {
-      let answer = document.getElementById("answer").value;
-      fetch(`Levels/${level}`, {
-          method: 'POST',
-      })
-      .then(response => response.json())
-      .then(ex => {
-          if (ex.response == answer) {
-            if (parseInt(level) < 3) {
-              level = parseInt(level) + 1;
-              MCQ(level);  // Trigger the next level
-            }else {
-              Congrats();
-            }
-          }
-          else {
-              MCQ(level);
-          }
-      });
-      return false;
-  } else {
-      fetch(`Levels/${level}`)
-      .then(response => response.json())
-      .then(ex => {
-
-        const nonebutton = document.querySelector('input[name="choice"][value="none"]');
-        if(nonebutton.checked){
-          
-          const otherbuttons = document.querySelectorAll('input[name="choice"]:not([value="none"])');
-
-          for(const radiobutton of otherbuttons){
-            if(radiobutton.value === ex.response){
-              MCQ(level);
-              return;
-            }
-          }
-          if(parseInt(level) < 3){
-            level = parseInt(level) + 1;
-            MCQ(level);
-          }
-          else {
-            Congrats();
-            return false;
-          }
-        }
-
-        if (ex.response == radio.value) {
-            if (parseInt(level) < 3) {
-              level = parseInt(level) + 1;
-              MCQ(level);  // Trigger the next level
-            } else {
-              Congrats();
-              return false;
-            }
-          } else {
-              MCQ(level);
-          }
-      })
-      .catch(error => {
-          console.log("Error: ", error);
-          alert(error);
-      });
+    
+    const nonebutton = document.querySelector('input[name="choice"][value="none"]');
+    if(nonebutton.checked){
       
+      const otherbuttons = document.querySelectorAll('input[name="choice"]:not([value="none"])');
+
+      for(const radiobutton of otherbuttons){
+        if(radiobutton.value === x){
+          MCQ(level);
+          return;
+        }
+      }
+      if(parseInt(level) < 3){
+        level = parseInt(level) + 1;
+        MCQ(level);
+      }
+      else {
+        Congrats();
+        return false;
+      }
+    } 
+    if (x == radio.value) {
+        if (parseInt(level) < 3) {
+          level = parseInt(level) + 1;
+          MCQ(level);  // Trigger the next level
+        } else {
+          Congrats();
+          return false;
+        }
+      } else {
+          MCQ(level);
+      }
+    return false;  
   }
-  return false;
-}
+  
+  
+
+
+
 
 
 
@@ -164,11 +135,14 @@ function Congrats() {
 
 
 function MCQ(level) {
+  event.preventDefault();
 
   fetch(`Levels/${level}`)
     .then(response => response.json())
     .then(ex => {
-      let qst = `<strong id="${level}">` + ex.question + `</strong>`;
+      let qst = `<strong id="${ex.level}" class="questions">` + ex.question + `</strong>`;
+      document.getElementById("legend").innerHTML = "Level "+ String(level);
+      x = ex.response;
 
       if (ex.choices.length != 0){
         //Return to me A array 
@@ -189,7 +163,7 @@ function MCQ(level) {
 
         // Add the radio buttons and labels to the 'qst' element
         selectedChoices.forEach(choice => {
-          document.getElementById("qst").innerHTML += `<input type="radio" name="choice" value="${choice}" id="rd"><label>${choice}</label><br>`;
+          document.getElementById("qst").innerHTML += `<input type="radio" name="choice" value="${choice}" id="rd"><label>${choice}</label>`;
         });
 
         document.getElementById("qst").innerHTML += `<input type="radio" value="none" name="choice" id="rd"><label>None</label><br>`;
@@ -200,17 +174,18 @@ function MCQ(level) {
       }
 
       if(level < 3){
-        document.getElementById("go").innerHTML = `<button type="submit">Level ${level}</button>`;
+        document.getElementById("go").innerHTML = `<button type="submit" id="sbb" class="btn btn-info">Next &raquo;</button>`;
       }
       else {
-        document.getElementById("go").innerHTML = `<button type="submit">Submit</button>`;
+        document.getElementById("go").innerHTML = `<button type="submit" id="sbb" class="btn btn-info">Submit</button>`;
       }
       document.getElementById("levels").style.display ="none";
+      document.getElementById("fd").style.display= "block";
       return;
     })
     .catch(error => {
       console.log(error);
-      alert(error)
+      alert(error);
     });
 
     return;
@@ -250,14 +225,22 @@ function convertBase(nb, b2, b1) {
   // Convert the input number to decimal
 
   let decimalNumber = parseInt(nb, b1);
-
+  
   // Convert the decimal number to the desired base
   let result = decimalNumber.toString(b2);
 
-  if (result == NaN) {
+  if (!verify(result) || result === NaN) {
     document.getElementById("converted").innerHTML = "Invalid input!";
   }
-
+  else{
   document.getElementById("converted").innerHTML =
-    "The number: " + result + " is in Base (" + options[to].value + ")";
+    "The number: " + result + " is in Base (" + options[to].value + ")";}
+}
+
+function verify(ch) {
+  i = 0;
+  while(i < ch.length && ch[i] in ["1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"]) {
+    i++;
+  }
+  return i === ch.length; 
 }
