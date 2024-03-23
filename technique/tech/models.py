@@ -30,6 +30,10 @@ class Exercice(models.Model):
 
 class Books(models.Model):
     title = models.CharField(max_length=100, blank=False)
-    src = models.CharField(max_length=500, blank=False)
-    description = models.TextField()
-    
+    src = models.URLField(max_length=500, blank=False)
+    description = models.TextField(blank=False)
+    alt = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.title}"
+

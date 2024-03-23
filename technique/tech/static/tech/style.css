@@ -278,3 +278,65 @@ a:hover {
   margin-bottom: 12px;
 
 }
+.book {
+  padding-right: 1700px;
+}
+#fb {
+  border: solid 1px #12cfb6;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+#book-title {
+  display: flex;
+  justify-content: center;
+}
+#img {
+  width: 150px;
+  height: auto;
+  object-fit: contain;
+  margin-left: 35px;
+}
+#ttr {
+  text-align: center;
+}
+#des {
+  margin-left: 15px;
+}
+
+#bks {
+  margin-left: 60px;
+  font-family:  Verdana, sans-serif;
+}
+/* make my website mobile-responsive */
+@media only screen and (max-width: 768px) {
+  .button-container {
+    margin-top: 10px;
+  }
+  
+  #button {
+    margin-left: 0;
+  }
+
+  .book {
+    padding-right: 10px;
+  }
+
+  #fb {
+    margin-bottom: 5px;
+  }
+
+  #img {
+    width: 100px;
+    margin-left: 230px;
+  }
+
+  #sbb {
+    margin-left: 240px;
+  }
+  #bks {
+  margin-left: 240px;
+  }
+  #des {
+    margin-left: 100px;
+  }
+}

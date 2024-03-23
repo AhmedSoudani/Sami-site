@@ -6,7 +6,7 @@ from random import randint
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from .models import User, Exercice
+from .models import User, Exercice, Books
 
 
 
@@ -14,9 +14,6 @@ from .models import User, Exercice
 def base(request):
     return render(request, "tech/convert.html")
 
-
-def index(request):
-    return render(request, "tech/index.html")
 
 def levels(request):
     return render(request, "tech/levels.html")
@@ -48,6 +45,14 @@ def exercice(request, num):
         else:
             print("No exercise found for the specified level")
         return JsonResponse(random_exercise.serialize())
+
+
+def index(request):
+    bks = Books.objects.all()
+
+    return render(request, "tech/index.html", {
+        "books" : bks
+    })
 
 
 def logout_view(request):

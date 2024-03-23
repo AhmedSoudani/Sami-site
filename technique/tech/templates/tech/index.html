@@ -8,15 +8,15 @@
 
 {% block body %}
 
-    <h1>Download Books</h1>
+    <h1 id="ttr">View Books</h1>
 
     {% for book in books %}
         <div class="book">  
-            <fieldset>
-                <legend>{{ book.title }}</legend>
-                <img src="{{ book.src }}" alt="{{ book.alt }}">
-                <p>Description: {{ book.description }}</p>
-                <button id="{{ book.src }}" class="btn btn-success">Download</button>
+            <fieldset id="fb">
+                <legend id="book-title">{{ book.title }}</legend>
+                <img src="{{ book.src }}" alt="{{ book.alt }}" id="img">
+                <p id="des">Description: {{ book.description }}</p>
+                <a id="bks" href="https://soudanisami.tn/" class="btn btn-success">View site</a>
             </fieldset>
         </div>
     {% endfor %}
