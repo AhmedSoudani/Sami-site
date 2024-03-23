@@ -1,7 +1,7 @@
 # CS50 Web Final Project!
----
+
 ## Site overview
----
+
 So, basically my dad is a technology professor he inspired me to create this topic!
 A technology websites that can be a converter of bases (eg..from Hexa to binary) Also gives you the ability to test your knowledge in convertion between bases with MCQ 
 also you can view my dad's books that can help you in the conversion and many more (they are in french)
@@ -11,14 +11,14 @@ also you can view my dad's books that can help you in the conversion and many mo
 - MCQ 
 
 ## Distinctiveness and Complexity
----
+
 The project was built using Django as a backend framework and JavaScript as a frontend programming language. All generated information are saved in database (SQLite by default).
 As i mentioned this website inspired from my father's topic, it's not similar to any project already done(e-commerce, network...)
 i used Three Django models in the back-end and 9 JavaScript Functions in the front-end (all the JS code was in the same file)
 And this website is a mobile-responsive
 
 ## Files Section
----
+
 - `Sami-site`:contains the Django project
   - `technique`
     - `tech`
