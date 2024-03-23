@@ -1,4 +1,4 @@
-#CS50 Web Final Project!
+# CS50 Web Final Project!
 ---
 ## Site overview
 ---
