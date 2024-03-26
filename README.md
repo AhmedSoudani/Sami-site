@@ -10,6 +10,8 @@ also you can view my dad's books that can help you in the conversion and many mo
 - converter 
 - MCQ 
 
+i didn't install any other libraries so you can run it from your PC just by installing Django
+
 ## Distinctiveness and Complexity
 
 The project was built using Django as a backend framework and JavaScript as a frontend programming language. All generated information are saved in database (SQLite by default).
