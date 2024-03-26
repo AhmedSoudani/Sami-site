@@ -52,4 +52,4 @@ And this website is a mobile-responsive
     - `views`: contains all of the applications views
 
 
-[Click here to see the demo video]()
+[Click here to see the demo video](https://youtu.be/nM8aijZChyk)
